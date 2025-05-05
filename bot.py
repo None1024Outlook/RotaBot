@@ -147,3 +147,8 @@ class B40Group(discord.app_commands.Group):
         
         if mode == "default":
             imagePath, execTime = await timeCalculatorAsync(rotaeno.getBest40, getUserData(userID), needCharacter=False)
+        await interaction.followup.send(f"你的 Best 40 数据已生成 | 函数用时: {execTime}秒", file=discord.File(imagePath))
+
+bot.tree.add_command(LoginGroup())
+bot.tree.add_command(B40Group())
+bot.run("Your Discord Bot Token")

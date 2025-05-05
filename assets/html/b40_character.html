@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            color: white;
+            background-image: url('background_image.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(43, 45, 66, 0.85);
+            z-index: -1;
+        }
+
+        .player {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .player img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+        }
+        .player span {
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .main-container {
+            display: flex;
+            gap: 20px;
+            max-width: 2220px;
+            margin: 0 auto;
+        }
+        .content {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(260px, 1fr));
+            gap: 15px;
+            flex-grow: 1;
+            margin-left: -8%;
+            margin-right: 8%;
+        }
+
+        .character-container {
+            width: 300px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .character-container img {
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+        .card {
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            height: 150px;
+            display: flex;
+        }
+
+        .card-image {
+            width: 150px;
+            height: 150px;
+            flex-shrink: 0;
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(5px) brightness(0.5);
+            z-index: 1;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: rgba(255, 255, 255, 0.847);
+            font-weight: bold;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 3;
+        }
+        
+        .card-body {
+            position: relative;
+            height: 100%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 2;
+        }
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            max-width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .card-text {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .card-text span {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .score-rainbow {
+            color: transparent;
+            background: linear-gradient(135deg, red, orange, orange, yellow, red);
+            -webkit-background-clip: text;
+            background-clip: text;
+            font-weight: bold;
+            text-shadow: 0 0 4px rgba(255, 255, 255, 0.7);
+        }
+        .score-blue {
+            color: transparent;
+            background: linear-gradient(135deg, rgb(0, 72, 255), rgb(81, 0, 255), rgb(81, 0, 255), rgb(0, 102, 255), rgb(0, 128, 255));
+            -webkit-background-clip: text;
+            background-clip: text;
+            font-weight: bold;
+            text-shadow: 0 0 1px rgba(255, 255, 255, 0.7);
+        }
+        .score-yellow {
+            color: #ffc800;
+            font-weight: bold;
+        }
+        .score-white {
+            color: white;
+        }
+
+        .flag-green {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        .flag-yellow {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        .flag-rainbow {
+            background: linear-gradient(135deg, red, orange, orange, yellow, red);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+            text-shadow: 0 0 4px rgba(255, 255, 255, 0.7);
+        }
+        .flag-white {
+            color: white;
+        }
+        .level-I {
+            color: #00ff37;
+        }
+        .level-II {
+            color: #0080ff;
+        }
+        .level-III {
+            color: #ff8800;
+        }
+        .level-IV {
+            color: #a454fa;
+        }
+        .level-IV_Alpha {
+            color: #c697f7;
+        }
+        .level-Other {
+            color: #dcdcdc;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            padding: 20px 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div style="display: grid; place-items: center">
+    <div class="player" id="player"></div>
+    <div class="main-container">
+        <div class="content" id="content"></div>
+        <div class="character-container" id="character"></div>
+    </div>
+    <footer>
+        <p>图片资源来源: Dream Engine Games</p>
+        <p>Best40模板: None1145 / Terlity</p> 
+        <p>Best40提供: o.O 人力统计(VSCode能不能自动填啊)</p> 
+    </footer>
+</div>
+
+<script>
+    const imgp = "../assets/img"
+    const data = /{{{data}}}/
+    const playerData = data[1];
+    document.body.style.backgroundImage = `url('${imgp}/background/${playerData.playerBackground}.png')`;
+    const player = document.getElementById('player');
+    player.innerHTML = `
+        <img src="${imgp}/avatar/${playerData.playerAvatar}.png" alt="Player Avatar">
+        <span>${playerData.playerName} (${(+playerData.playerRating).toFixed(4)})</span>
+    `;
+    const character = document.getElementById('character');
+    character.innerHTML = `
+        <img src="${imgp}/character/${playerData.playerCharacter}.png" alt="Character">
+    `;
+    const filteredData = data[0].sort((a, b) => b.rating - a.rating)
+                                .slice(0, 40);
+    populateCards(filteredData);
+
+    function getScoreClass(score) {
+        const scoreNum = parseInt(score);
+        if (scoreNum === 1010000) return 'score-rainbow';
+        if (scoreNum >= 1008000 && scoreNum <= 1009999) return 'score-blue';
+        if (scoreNum >= 1000000 && scoreNum <= 1007999) return 'score-yellow';
+        return 'score-white';
+    }
+
+    function getFlagClass(flag) {
+        flag = flag.toUpperCase();
+        if (flag === 'AP+') return 'flag-rainbow';
+        if (flag === 'AP') return 'flag-yellow';
+        if (flag === 'FC') return 'flag-green';
+        return 'flag-white';
+    }
+
+    function getLevelNameClass(level) {
+        level = level.toUpperCase();
+        if (level === 'I') return 'level-I';
+        if (level === 'II') return 'level-II';
+        if (level === 'III') return 'level-III';
+        if (level === 'IV') return 'level-IV';
+        if (level === 'IV_ALPHA') return 'level-IV_Alpha';
+        return 'level-Other';
+    }
+
+    function createCard(cardData, index) {
+        const scoreClass = getScoreClass(cardData.score);
+        cardData.songStatus = cardData.songStatus.replace('APP', 'AP+');
+        const flagClass = getFlagClass(cardData.songStatus);
+        const levelNameClass = getLevelNameClass(cardData.songLevelName);
+
+        return `
+            <div class="card">
+                <div class="card-image">
+                    <img src="${imgp}/thumb/${cardData.songID}.png" alt="${cardData.songID}">
+                </div>
+                <div class="card-content">
+                    <img class="card-bg" src="${imgp}/thumb/${cardData.songID}.png" alt="Background">
+                    <div class="card-number"><span class="${levelNameClass}">#${index + 1}</span></div>
+                    <div class="card-body">
+                        <br>
+                        <span class="card-title">${cardData.songName}</span>
+                        <span class="card-title" style="font-size: 18px;"><span class="${scoreClass}">${cardData.score}</span> (<span class="${flagClass}">${cardData.songStatus}</span>)</span>
+                        <div class="card-text">
+                            <span>
+                                Rating: ${(+cardData.rating).toFixed(4)}<br>
+                                Level: ${cardData.level}<br>
+                                <br>
+                            </span>
+                            <span>
+                                Next: +${cardData.nextPointScore}<br>
+                                Cleared: ${cardData.isCleared}<br>
+                                <br>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function populateCards(cardsData) {
+        document.getElementById('content').innerHTML = cardsData.map((cardData, index) => createCard(cardData, index)).join('');
+    }
+</script>
+
+</body>
+</html>

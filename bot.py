@@ -167,4 +167,4 @@ class B40Group(discord.app_commands.Group):
 
 bot.tree.add_command(LoginGroup())
 bot.tree.add_command(B40Group())
-bot.run("Your Discord Bot Token")
+bot.run(config.DISCORD_BOT_TOKEN)

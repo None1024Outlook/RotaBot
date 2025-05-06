@@ -5,7 +5,7 @@ import getInfo
 
 def getBest40(userData, needCharacter=False, justDATA=False, justHTML=False):
     songs, player = getInfo.getSave(userData)
-    songs = sorted(songs, key=lambda x: x.rating, reverse=True)[:40]
+    songs = sorted(songs, key=lambda song: song.rating, reverse=True)[:40]
     
     if justDATA:
         return (songs, player)
@@ -17,3 +17,9 @@ def getBest40(userData, needCharacter=False, justDATA=False, justHTML=False):
     if needCharacter:
         return utils.renderHtmlToImage((2800, 1310), 1.5, html_data=html, isHTML=True)
     return utils.renderHtmlToImage((2600, 1310), 1.5, html_data=html, isHTML=True)
+
+def getBest40RatingChart(userData):
+    songs, _ = getBest40(userData, justDATA=True)
+    ratings = [round(song.rating, 4) for song in songs]
+    songNames = [song.title for song in songs]
+    return utils.drawBarChart(ratings, songNames)

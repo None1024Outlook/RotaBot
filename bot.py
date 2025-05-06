@@ -138,6 +138,18 @@ class B40Group(discord.app_commands.Group):
         
         await self.handle_b40(interaction, mode="default")
     
+    @discord.app_commands.command(name="character", description="生成Best40数据(驾驶员)")
+    async def b40_character(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+        
+        await self.handle_b40(interaction, mode="character")
+    
+    @discord.app_commands.command(name="rating", description="获取Best40单曲分布数据")
+    async def b40_rating(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+        
+        await self.handle_b40(interaction, mode="rating")
+        
     async def handle_b40(interaction: discord.Interaction, mode: str, **kwargs):
         userID = str(interaction.user.id)
         verifyInfo = verifyUserData(userID)
@@ -147,6 +159,10 @@ class B40Group(discord.app_commands.Group):
         
         if mode == "default":
             imagePath, execTime = await timeCalculatorAsync(rotaeno.getBest40, getUserData(userID), needCharacter=False)
+        elif mode == "character":
+            imagePath, execTime = await timeCalculatorAsync(rotaeno.getBest40, getUserData(userID), needCharacter=True)
+        elif mode == "rating":
+            imagePath, execTime = await timeCalculatorAsync(rotaeno.getBest40RatingChart, getUserData(userID))
         await interaction.followup.send(f"你的 Best 40 数据已生成 | 函数用时: {execTime}秒", file=discord.File(imagePath))
 
 bot.tree.add_command(LoginGroup())

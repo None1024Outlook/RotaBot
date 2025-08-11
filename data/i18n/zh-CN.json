@@ -1,0 +1,23 @@
+{
+    "missing-required-parameter-serverCode": "缺失参数: serverCode",
+    "missing-required-parameter-privateServerURL": "缺失参数: privateServerURL",
+    "missing-required-parameter-objectID": "缺失参数: objectID",
+    "missing-required-parameter-sessionToken": "缺失参数: sessionToken",
+    "binding-successful": "绑定成功",
+    "unavailable-server-code": "不可用服务器代码: `{server_code}`",
+    "unavailable-private-server-url": "不可用私有服务器地址: `{private_server_url}`",
+    "please-enter-server-code": "请输入服务器代码 (server_code)",
+    "please-enter-private-server-url": "请输入私有服务器地址 (private_server_url)",
+    "please-enter-object-id": "请输入objectID (object_id)",
+    "please-enter-session-token": "请输入sessionToken (session_token)",
+    "taptap-login-qrcode-has-been-generated-lease-scan-it-within-1-minute-to-log-in": "TapTap登录二维码已生成, 请在1分钟内扫描登录",
+    "login-timed-out-please-retrieve-taptap-login-qrcode-again": "已超过登录时间, 请重新生成TapTap登录二维码",
+    "binding-successful-function-execution-time": "绑定成功 | 函数用时: {exec_time}秒",
+    "rotaeno-account-binding-not-yet-completed": "Rotaeno账户未绑定: `{message}`",
+    "your-best40-data-has-been-generatedfunction-execution-time": "你的Best40数据已生成 | 函数用时: {exec_time}秒",
+    "song-alias-not-found": "未找到歌曲别名: `{song_alias}`",
+    "your-song-data-has-been-generatedfunction-execution-time": "你的歌曲数据已生成 | 函数用时: {exec_time}秒",
+    "unavailable-song-status": "不可用歌曲状态: `{song_status}`",
+    "unavailable-song-sort-type": "不可用歌曲排序类型 `{song_sort_type}`",
+    "invalid-song-level-num-range": "无效歌曲等级范围: `{song_level_num_range}`"
+}

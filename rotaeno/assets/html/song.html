@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom right, #2a003f, #000000);
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #fff;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('../assets/img/source/alive.png');
+            background-size: cover;
+            background-position: center;
+            filter: blur(10px) brightness(0.4);
+            z-index: -1;
+        }
+
+        .game-container {
+            width: 100%;
+            max-width: 1000px;
+            background: linear-gradient(to bottom, #2b2b4e, #1a1a3a);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .rotaeno-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #e0e0e0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 10px 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .player-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: #8a2be2;
+            margin-right: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.7);
+        }
+
+        .player-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .player-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .player-stats {
+            display: flex;
+            gap: 15px;
+        }
+
+        .stat-box {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 5px 12px;
+            font-size: 0.9em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-label {
+            color: #a0a0a0;
+            font-size: 0.8em;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .header-right {
+            text-align: right;
+            font-size: 0.9em;
+            color: #bbb;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .song-art {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1 / 1;
+            background-color: #333;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            background-image: url('...');
+            background-size: cover;
+            background-position: center;
+            flex: none;
+        }
+
+
+        .performance-details {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .song-info {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 15px 25px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .song-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #e0e0e0;
+            margin-bottom: 5px;
+        }
+
+        .song-artist {
+            font-size: 1.1em;
+            color: #bbb;
+        }
+
+        .score-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .score-row {
+            display: flex;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 10px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .score-row.level-i { background-color: rgba(76, 175, 80, 0.2); }
+        .score-row.level-ii { background-color: rgba(33, 150, 243, 0.2); }
+        .score-row.level-iii { background-color: rgba(255, 152, 0, 0.2); }
+        .score-row.level-iv { background-color: rgba(138, 43, 226, 0.2); }
+        .score-row.level-alpha { background-color: rgba(227, 148, 249, 0.2); }
+
+        .score-level-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 15px;
+            color: #fff;
+            flex-shrink: 0;
+            position: relative;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 
+                0 0 0 1px rgba(255, 255, 255, 0.3),
+                0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        .score-level-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle at center,
+                var(--glass-color) 0%,
+                transparent 70%
+            );
+            opacity: 0.8;
+            z-index: -1;
+        }
+        .level-i { --glass-color: rgba(76, 175, 80, 0.8); }
+        .level-ii { --glass-color: rgba(33, 150, 243, 0.8); }
+        .level-iii { --glass-color: rgba(255, 152, 0, 0.8); }
+        .level-iv { --glass-color: rgba(138, 43, 226, 0.8); }
+        .level-alpha { --glass-color: rgba(227, 148, 249, 0.8); }
+
+        .score-cubes {
+            display: flex;
+            gap: 10px;
+            margin-left: 10px;
+            margin-right: 15px;
+        }
+
+        .cube {
+            width: 12px;
+            height: 12px;
+            transform: rotate(45deg);
+            position: relative;
+            box-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+
+        .cube.outline {
+            background: transparent !important;
+            border: 2px solid currentColor;
+            box-shadow: none;
+        }
+
+        .cube-white {
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+            border: 2px solid #ffffff;
+        }
+
+        .cube-blue {
+            background: linear-gradient(135deg, #4dabf7 0%, #228be6 100%);
+            border: 2px solid #4dabf7;
+        }
+
+        .cube-gold {
+            background: linear-gradient(135deg, #ffd43b 0%, #f08c00 100%);
+            border: 2px solid #ffd43b;
+        }
+
+        .cube-white.outline { color: #ffffff; }
+        .cube-blue.outline { color: #4dabf7; }
+        .cube-gold.outline { color: #ffd43b; }
+
+        .score-value {
+            flex-grow: 1;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-align: center;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        .score-value.small {
+            font-size: 1.5em;
+        }
+
+        .score-details {
+            font-size: 1.1em;
+            color: #ddd;
+            width: 150px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .score-currency-icon {
+            width: 40px;
+            height: 40px;
+            margin-left: 15px;
+        }
+
+        .score-currency-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <div class="header">
+            <div class="header-left">
+                <div class="player-info">
+                    <div class="player-avatar" style="background-color: #8a2be2;">
+                        <img src="../assets/img/avatar/event-3rd-ani.png" />
+                    </div>
+                    <div class="player-details">
+                        <div class="player-name"></div>
+                        <div class="player-stats">
+                            <div class="stat-box">
+                                <div class="stat-label" style="white-space: nowrap;">$$level_cfl</div>
+                                <div class="stat-value" id="level"></div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label" style="white-space: nowrap;">$$rating_cfl</div>
+                                <div class="stat-value" id="rating"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <img src="../../data/logo.png" style="width: 10%; height: 10%; border-radius: 10px" />
+                <div class="rotaeno-title">$$song_title</div>
+                <div>$$footer</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="song-art" style="background-image: url('../assets/img/source/alive.png');">
+                </div>
+            <div class="performance-details">
+                <div class="song-info">
+                    <div class="song-title"></div>
+                    <div class="song-artist"></div>
+                </div>
+                <div class="score-sections"></div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const data = $$data
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updatePage();
+    });
+    function updatePage() {
+        const song = data.songData;
+        const k = song[Object.keys(song)[0]];
+        const player = data.playerInfo;
+        const imgp = "../assets/img";
+        
+        const style = document.createElement('style');
+        style.innerHTML = `
+            body::before {
+                background-image: url('${imgp}/source/${k.id}.png') !important;
+            }
+        `;
+        document.head.appendChild(style);
+        document.querySelector('.song-art').style.backgroundImage = `url('${imgp}/source/${k.id}.png')`;
+
+        document.querySelector('.player-avatar img').src = `${imgp}/avatar/${player.avatar}.png`;
+        document.querySelector('.player-name').textContent = player.displayName;
+        document.getElementById('level').textContent = player.level.toFixed(1);
+        document.getElementById('rating').textContent = player.rating.toFixed(4);
+
+        document.querySelector('.song-title').textContent = k.title;
+        document.querySelector('.song-artist').textContent = k.artist;
+
+        const scoreSections = document.querySelector('.score-sections');
+        scoreSections.innerHTML = '';
+
+        Object.entries(song).forEach(([levelKey, levelData]) => {
+            console.log(levelKey, levelData);
+
+            const levelName = levelKey === 'IV_Alpha' ? 'α' : levelKey;
+            const levelClass = getLevelClass(levelKey);
+            const ratingText = `${levelData.diff} ⇒ ${levelData.ratingMix.toFixed(3)}`;
+            
+            const scoreRow = document.createElement('div');
+            scoreRow.className = `score-row ${levelClass}`;
+            scoreRow.innerHTML = `
+                <div class="score-level-icon ${levelClass}">${levelName}</div>
+                <div class="score-value small">${levelData.score}</div>
+                <div class="score-cubes">
+                    <div class="cube cube-white ${levelData.isCleared ? '' : 'outline'}"></div>
+                    <div class="cube cube-blue ${levelData.status == 'FC' || levelData.status == 'AP' || levelData.status == 'APP' ? '' : 'outline'}"></div>
+                    <div class="cube cube-gold ${levelData.status == 'AP' || levelData.status == 'APP' ? '' : 'outline'}"></div>
+                </div>
+                <div class="score-details">${ratingText}</div>
+                <div class="score-currency-icon">
+                    <img src="${imgp}/rank/${getRank(levelData.score)}.png"/>
+                </div>
+            `;
+            
+            scoreSections.appendChild(scoreRow);
+        });
+    }
+
+    function getLevelClass(level) {
+        switch(level) {
+            case 'I': return 'level-i';
+            case 'II': return 'level-ii';
+            case 'III': return 'level-iii';
+            case 'IV': return 'level-iv';
+            case 'IV_Alpha': return 'level-alpha';
+            default: return 'level-alpha';
+        }
+    }
+
+    function getRank(score) {
+        if (score >= 1008000) return "EX+";
+        if (score >= 1000000) return "EX";
+        if (score >= 980000) return "S+";
+        if (score >= 950000) return "S";
+        if (score >= 900000) return "A+";
+        if (score >= 850000) return "A";
+        if (score >= 800000) return "B";
+        if (score >= 700000) return "C";
+        if (score >= 600000) return "D";
+        if (score >= 500000) return "E";
+        return "F";
+    }
+</script>
+</body>
+</html>

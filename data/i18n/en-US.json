@@ -1,0 +1,20 @@
+{
+    "missing-required-parameter-serverCode": "Missing parameter: serverCode",
+    "missing-required-parameter-privateServerURL": "Missing parameter: privateServerURL",
+    "missing-required-parameter-objectID": "Missing parameter: objectID",
+    "missing-required-parameter-sessionToken": "Missing parameter: sessionToken",
+    "binding-successful": "Binding successful",
+    "unavailable-server-code": "Unavailable server code: `{server_code}`",
+    "unavailable-private-server-url": "Unavailable private server URL: `{private_server_url}`",
+    "please-enter-server-code": "Please enter the server code (server_code)",
+    "please-enter-private-server-url": "Please enter the private server URL (private_server_url)",
+    "please-enter-object-id": "Please enter the objectID (object_id)",
+    "please-enter-session-token": "Please enter the sessionToken (session_token)",
+    "taptap-login-qrcode-has-been-generated-lease-scan-it-within-1-minute-to-log-in": "TapTap login QR code has been generated. Please scan it within 1 minute to log in.",
+    "login-timed-out-please-retrieve-taptap-login-qrcode-again": "Login timed out. Please retrieve the TapTap login QR code again.",
+    "binding-successful-function-execution-time": "Binding successful | Function execution time: {exec_time} seconds",
+    "rotaeno-account-binding-not-yet-completed": "Rotaeno account not yet bound: `{message}`",
+    "your-best40-data-has-been-generatedfunction-execution-time": "Your Best40 data has been generated | Function execution time: {exec_time} seconds",
+    "song-alias-not-found": "Song alias not found: `{song_alias}`",
+    "your-song-data-has-been-generatedfunction-execution-time": "Your song data has been generated | Function execution time: {exec_time} seconds"
+}

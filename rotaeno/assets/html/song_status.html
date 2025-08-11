@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Rotaeno B40 Rating 查询</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: "Segoe UI", sans-serif;
+                color: #fff;
+                background-image: url("background_image.jpg");
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+                position: relative;
+            }
+
+            body::after {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(43, 45, 66, 0.5);
+                backdrop-filter: blur(8px);
+                z-index: -1;
+            }
+
+            header {
+                background: #1111113c;
+                padding: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .player-info,
+            .game-info {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .player-info img {
+                border-radius: 50%;
+                width: 128px;
+                height: 128px;
+            }
+            .game-info img {
+                border-radius: 10%;
+                width: 128px;
+                height: 128px;
+            }
+
+            .rating-card {
+                background: #0e4c57;
+                padding: 10px 15px;
+                border-radius: 8px;
+                margin-top: 5px;
+            }
+
+            .section {
+                margin: 20px;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+                margin: 10px 0;
+                border-left: 4px solid #00bcd4;
+                padding-left: 10px;
+            }
+
+            .section-title-b40 {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 2rem 0;
+            }
+
+            .line {
+                flex: 1;
+                height: 2px;
+                background-color: #00bcd4;
+                margin: 0 12px;
+            }
+
+            .title-text {
+                padding: 6px 16px;
+                font-size: 1.5rem;
+                border-radius: 8px;
+                color: #00bcd4;
+            }
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 12px;
+            }
+
+            .card {
+                background: #2222227a;
+                border-radius: 8px;
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .card img {
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+            }
+
+            .img-ring {
+                display: inline-block;
+                border-radius: 50%;
+                border: 2.5px solid var(--ring-color, #00bcd4);
+                box-sizing: content-box;
+            }
+
+            .img-ring img {
+                display: block;
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+            }
+
+            .card-details {
+                flex: 1;
+            }
+
+            .score {
+                font-weight: bold;
+                font-size: 1.1rem;
+            }
+
+            .meta {
+                font-size: 0.8rem;
+                color: #aaa;
+            }
+
+            .score-rainbow {
+                color: transparent;
+                background: linear-gradient(135deg, red, orange, orange, yellow, red);
+                -webkit-background-clip: text;
+                background-clip: text;
+                font-weight: bold;
+                text-shadow: 0 0 4px rgba(255, 255, 255, 0.7);
+            }
+
+            .score-blue {
+                color: transparent;
+                background: linear-gradient(
+                    135deg,
+                    rgb(0, 72, 255),
+                    rgb(81, 0, 255),
+                    rgb(81, 0, 255),
+                    rgb(0, 102, 255),
+                    rgb(0, 128, 255)
+                );
+                -webkit-background-clip: text;
+                background-clip: text;
+                font-weight: bold;
+                text-shadow: 0 0 1px rgba(255, 255, 255, 0.7);
+            }
+
+            .score-yellow {
+                color: #ffc800;
+                font-weight: bold;
+            }
+
+            .score-white {
+                color: white;
+            }
+
+            footer {
+                text-align: center;
+                font-size: 0.8rem;
+                color: #888;
+                padding: 10px;
+                background: #11111171;
+                margin-top: 30px;
+            }
+
+            .song-name {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 120px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <div class="game-info">
+                <img src="../../data/logo.png" alt="Game Icon">
+                <div>
+                    <h1 style="margin: 0; font-size: 2.2rem">$$rotaeno_cfl</h1>
+                    <p style="margin: 0; font-size: 1.9rem">$$song_status_title</p>
+                </div>
+            </div>
+            <div class="player-info" id="player"></div>
+        </header>
+
+        <main class="section">
+            <div class="section-title-b40">
+                <div class="line"></div>
+                <div class="title-text">$$song_status_cfl</div>
+                <div class="line"></div>
+            </div>
+
+            <div id="song-list"></div>
+        </main>
+
+        <footer>$$footer</footer>
+
+        <script>
+            const data = $$data;
+
+            const playerData = data.playerInfo;
+            const imgp = "../assets/img";
+            const player = document.getElementById("player");
+            player.innerHTML = `
+                <img src="${imgp}/avatar/${playerData.avatar}.png" alt="Player Avatar">
+                <div>
+                    <div><strong style="font-size:1.5rem;">${playerData.displayName}</strong></div>
+                    <div class="rating-card">Rating: ${(+playerData.rating).toFixed(4)}</div>
+                </div>
+            `;
+
+            const filteredData = data.songDatas;
+            const k = filteredData[Object.keys(filteredData)[0]];
+            let songRank = 1;
+
+            const songList = document.getElementById("song-list");
+
+            function getRank(score) {
+                if (score >= 1008000) return "EX+";
+                if (score >= 1000000) return "EX";
+                if (score >= 980000) return "S+";
+                if (score >= 950000) return "S";
+                if (score >= 900000) return "A+";
+                if (score >= 850000) return "A";
+                if (score >= 800000) return "B";
+                if (score >= 700000) return "C";
+                if (score >= 600000) return "D";
+                if (score >= 500000) return "E";
+                return "F";
+            }
+
+            function getScoreClass(score) {
+                const scoreNum = parseInt(score);
+                if (scoreNum === 1010000) return "score-rainbow";
+                if (scoreNum >= 1008000 && scoreNum <= 1009999) return "score-blue";
+                if (scoreNum >= 1000000 && scoreNum <= 1007999) return "score-yellow";
+                return "score-white";
+            }
+
+            function getLevelNameColor(level) {
+                level = level.toUpperCase();
+                if (level === 'I') return '#00ff37';
+                if (level === 'II') return '#0080ff';
+                if (level === 'III') return '#ff8800';
+                if (level === 'IV') return '#a454fa';
+                if (level === 'IV_ALPHA') return '#c697f7';
+                return '#dcdcdc';
+            }
+
+            function createSection(title, songs) {
+                const section = document.createElement("div");
+                const heading = document.createElement("div");
+                heading.className = "section-title";
+                heading.textContent = title;
+                section.appendChild(heading);
+
+                const grid = document.createElement("div");
+                grid.className = "grid";
+
+                songs.forEach((song) => {
+                    const card = document.createElement("div");
+                    card.className = "card";
+
+                    const imgWrapper = document.createElement('div');
+                    imgWrapper.className = 'img-ring';
+                    imgWrapper.style.setProperty('--ring-color', getLevelNameColor(song.level));
+
+                    const img_song = document.createElement('img');
+                    img_song.src = `${imgp}/thumb/${song.id}.png`;
+                    img_song.alt = song.title;
+
+                    imgWrapper.appendChild(img_song);
+
+                    const img_rank = document.createElement("img");
+                    img_rank.src = `${imgp}/rank/${getRank(song.score)}.png`;
+                    img_rank.alt = song.title;
+
+                    const details = document.createElement("div");
+                    details.className = "card-details";
+                    details.innerHTML = `
+                        <div class="song-name"><strong>${song.title}</strong></div>
+                        <div class="score ${getScoreClass(song.score)}">${song.score}</div>
+                        <div class="meta">$$diff_cfl ${song.diff.toFixed(1)} ➔ ${song.rating.toFixed(4)}</div>
+                        <div class="meta">#${songRank} ${song.status.replace("APP", "AP+")}</div>
+                    `;
+
+                    card.appendChild(imgWrapper);
+                    card.appendChild(details);
+                    grid.appendChild(card);
+                    card.appendChild(img_rank);
+
+                    songRank += 1;
+                });
+
+                section.appendChild(grid);
+                return section;
+            }
+
+            document.body.style.backgroundImage = `url('${imgp}/background/${playerData.background}.png')`;
+            songList.appendChild(createSection(`$$song_status_cfl: ${data.songStatus}`, filteredData));
+        </script>
+    </body>
+</html>

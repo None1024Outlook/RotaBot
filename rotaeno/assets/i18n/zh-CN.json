@@ -1,0 +1,17 @@
+{
+    "footer": "生成自 RotaBOT | @None1145 / @Terlity",
+    "rotaeno_cfl": "旋转音律",
+    "rating_cfl": "音律值",
+    "best40_title": "Best40查询",
+    "song_title": "单曲查询",
+    "diff_cfl": "定数",
+    "weight_60": "权重 60%",
+    "weight_20": "权重 20%",
+    "level_cfl": "旅行者等级",
+    "song_status_title": "歌曲状态查询",
+    "song_status_cfl": "歌曲状态",
+    "song_rtr_title": "歌曲等级范围查询",
+    "song_rtr_cfl": "歌曲等级范围",
+    "song_rtr_sort_type": "歌曲等级范围排序类型",
+    "song_level_num_range": "歌曲等级范围"
+}
